@@ -1,0 +1,98 @@
+﻿@{
+    ViewData["Title"] = "Inicio";
+}
+
+<!-- Imagen de encabezado con texto superpuesto -->
+<div class="container-fluid p-0">
+    <div class="header-image" style="position: relative; text-align: center;">
+        <img src="~/images/spa-header.jpg" alt="Spa" style="width: 100%; height: auto; max-height: 400px; object-fit: cover;" />
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white;">
+            <h1 style="font-size: 3rem; margin: 0;">Sentirse Bien</h1>
+            <h2 style="font-size: 2rem; margin: 0;">Spa</h2>
+        </div>
+    </div>
+</div>
+
+<!-- Sección "Quiénes somos" -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="~/images/quienes-somos-cuadrado.jpg" alt="Quiénes somos" class="img-fluid" />
+        </div>
+        <div class="col-md-8">
+            <h1>Quiénes somos</h1>
+            <p class="lead mt-3">
+                Bienvenidos a nuestro spa...
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Sección "Servicios" -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h2>Nuestros Servicios</h2>
+        </div>
+        <div class="col-md-4 text-center mt-4">
+            <img src="~/images/masajes.jpg" alt="Masajes" class="img-fluid" />
+            <h4 class="mt-2">Masajes</h4>
+        </div>
+        <div class="col-md-4 text-center mt-4">
+            <img src="~/images/belleza.jpg" alt="Belleza" class="img-fluid" />
+            <h4 class="mt-2">Belleza</h4>
+        </div>
+        <div class="col-md-4 text-center mt-4">
+            <img src="~/images/tratamientos-faciales.jpg" alt="Tratamientos Faciales" class="img-fluid" />
+            <h4 class="mt-2">Tratamientos Faciales</h4>
+        </div>
+    </div>
+</div>
+
+<!-- Sección "Encuéntranos en el Mapa" -->
+<div id="map-section" class="mt-5">
+    <h2>Encuéntranos en el Mapa</h2>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14162.32484455692!2d-59.00003091284177!3d-27.4511594!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94450dd7dcaa4c99%3A0x3d64f4df2c01d442!2sSpa%20Room!5e0!3m2!1ses!2sar!4v1725392106044!5m2!1ses!2sar"
+        width="1000" 
+        height="350" 
+        style="border:0;" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </iframe>
+</div>
+
+
+<!-- Formulario de Contacto -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h2>Contáctanos</h2>
+        </div>
+        <div class="col-md-8 offset-md-2">
+            <form asp-action="Contact" method="post">
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" required />
+                </div>
+                <div class="form-group mt-3">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" required />
+                </div>
+                <div class="form-group mt-3">
+                    <label for="mensaje">Mensaje:</label>
+                    <textarea class="form-control" id="mensaje" name="mensaje" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Enviar</button>
+            </form>
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-success mt-3">@ViewBag.Message</div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- No es necesario para mapas estáticos -->
+}

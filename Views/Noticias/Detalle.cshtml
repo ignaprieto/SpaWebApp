@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = ViewBag.Titulo;
+    var imagenPath = Url.Content($"~/images/noticia{ViewBag.Id}.jpg");
+}
+
+<div class="container mt-5">
+    <h1>@ViewBag.Titulo</h1>
+    <img src="@imagenPath" class="img-fluid mb-4" alt="@ViewBag.Titulo" />
+    <p>
+        @ViewBag.Descripcion
+    </p>
+    <a href="@Url.Action("Index", "Noticias")" class="btn btn-secondary">Volver a Noticias</a>
+</div>

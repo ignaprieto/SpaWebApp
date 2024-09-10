@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Noticias";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1>Últimas Noticias</h1>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <!-- Primera Noticia -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="~/images/noticia1.jpg" class="card-img-top" alt="Noticia 1" />
+                <div class="card-body">
+                    <h5 class="card-title">Título de Noticia 1</h5>
+                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipiscing elit rhoncus fringilla vulputate.</p>
+                    <a href="@Url.Action("Detalle", "Noticias", new { id = 1 })" class="btn btn-primary">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <!-- Segunda Noticia -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="~/images/noticia2.jpg" class="card-img-top" alt="Noticia 2" />
+                <div class="card-body">
+                    <h5 class="card-title">Título de Noticia 2</h5>
+                    <p class="card-text">Descripción corta de la noticia 2.</p>
+                    <a href="@Url.Action("Detalle", "Noticias", new { id = 2 })" class="btn btn-primary">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <!-- Tercera Noticia -->
+        <div class="col-md-4">
+            <div class="card">
+                <img src="~/images/noticia3.jpg" class="card-img-top" alt="Noticia 3" />
+                <div class="card-body">
+                    <h5 class="card-title">Título de Noticia 3</h5>
+                    <p class="card-text">Descripción corta de la noticia 3.</p>
+                    <a href="@Url.Action("Detalle", "Noticias", new { id = 3 })" class="btn btn-primary">Ver más</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
