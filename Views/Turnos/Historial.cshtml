@@ -1,0 +1,29 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "Historial de Turnos";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Servicio</th>
+            <th>Cliente</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var turno in Model)
+        {
+            <tr>
+                <td>@turno.FechaTurno.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@turno.Servicio</td>
+                <td>@turno.ClienteNombre</td>
+                <td>@turno.Estado</td>
+            </tr>
+        }
+    </tbody>
+</table>

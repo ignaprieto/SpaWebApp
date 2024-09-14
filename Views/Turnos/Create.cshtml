@@ -1,0 +1,37 @@
+﻿@model SpaWebApp.Models.Turno
+
+@{
+    ViewData["Title"] = "Crear Turno";
+}
+
+<h1>Crear Turno</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Usuario" class="control-label"></label>
+        <select asp-for="Usuario.UsuarioID" class="form-control" asp-items="@(Html.GetEnumSelectList<SpaWebApp.Models.ServicioEnum>())"></select>
+        <span asp-validation-for="Usuario.UsuarioID" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Servicio" class="control-label"></label>
+        <select asp-for="Servicio" class="form-control" asp-items="@(Html.GetEnumSelectList<SpaWebApp.Models.ServicioEnum>())"></select>
+        <span asp-validation-for="Servicio" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="FechaTurno" class="control-label"></label>
+        <input asp-for="FechaTurno" class="form-control" />
+        <span asp-validation-for="FechaTurno" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Comentarios" class="control-label"></label>
+        <textarea asp-for="Comentarios" class="form-control"></textarea>
+        <span asp-validation-for="Comentarios" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Crear Turno</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

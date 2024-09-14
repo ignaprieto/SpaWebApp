@@ -4,6 +4,10 @@ using SpaWebApp.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+using BCrypt.Net;  // Asegúrate de instalar BCrypt.Net-Next
 
 namespace SpaWebApp.Controllers
 {
@@ -26,33 +30,40 @@ namespace SpaWebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string email, string password)
         {
-            // Buscar al usuario por email
             var user = _context.Usuarios.SingleOrDefault(u => u.Email == email);
 
-            if (user == null || user.ContraseñaHash != password) // Validación básica de contraseña
+            if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.ContraseñaHash))
             {
-                // En caso de fallo
                 ModelState.AddModelError("", "Email o contraseña incorrectos.");
                 return View();
             }
 
-            // Guardar información en sesión
-            HttpContext.Session.SetString("UserId", user.UsuarioID.ToString());
-            HttpContext.Session.SetString("UserName", user.Nombre);
-            HttpContext.Session.SetString("UserRole", user.Rol);
+            // Crear los claims (información de usuario) para la autenticación
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Nombre),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Rol),
+                new Claim("UsuarioID", user.UsuarioID.ToString()) // Asegúrate de incluir el ID del usuario
+            };
 
-            // Redireccionar dependiendo del rol
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            // Autenticar al usuario
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
             if (user.Rol == "Personal")
             {
-                return RedirectToAction("Dashboard", "Admin"); // Redirigir al panel de personal
+                return RedirectToAction("Index", "Turnos"); // Redirigir a la vista de personal
             }
-            return RedirectToAction("Index", "Home"); // Redirigir al área de clientes
+
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Logout
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            HttpContext.Session.Clear();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login");
         }
 
@@ -66,7 +77,6 @@ namespace SpaWebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(string Nombre, string Apellido, string Email, string Telefono, string Direccion, string Password)
         {
-            // Verificar si ya existe un usuario con el mismo email
             var existingUser = _context.Usuarios.SingleOrDefault(u => u.Email == Email);
             if (existingUser != null)
             {
@@ -74,7 +84,6 @@ namespace SpaWebApp.Controllers
                 return View();
             }
 
-            // Crear un nuevo usuario
             var newUser = new Usuario
             {
                 Nombre = Nombre,
@@ -83,15 +92,13 @@ namespace SpaWebApp.Controllers
                 Telefono = Telefono,
                 Direccion = Direccion,
                 FechaRegistro = DateTime.Now,
-                ContraseñaHash = Password, // Guardar la contraseña de forma directa (sin hashing)
-                Rol = "Cliente" // Asignar el rol de cliente por defecto
+                ContraseñaHash = BCrypt.Net.BCrypt.HashPassword(Password), // Encriptar la contraseña
+                Rol = "Cliente"
             };
 
-            // Agregar el nuevo usuario a la base de datos
             _context.Usuarios.Add(newUser);
             await _context.SaveChangesAsync();
 
-            // Redireccionar al login tras el registro exitoso
             return RedirectToAction("Login", "Auth");
         }
     }

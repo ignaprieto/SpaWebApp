@@ -1,0 +1,28 @@
+﻿@model IEnumerable<SpaWebApp.Models.Turno>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>TurnoID</th>
+            <th>Tipo de Servicio</th>
+            <th>Servicio</th>
+            <th>Fecha del Turno</th>
+            <th>Estado</th>
+            <th>Comentarios</th>
+            <th>Cliente</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var turno in Model)
+        {
+            <tr>
+                <td>@turno.TurnoID</td>
+                <td>@turno.Servicio</td>
+                <td>@turno.FechaTurno.ToShortDateString()</td>
+                <td>@turno.Estado</td>
+                <td>@turno.Comentarios</td>
+                <td>@turno.Usuario?.Nombre @turno.Usuario?.Apellido</td> <!-- Usa el operador null-conditional para evitar desreferencias nulas -->
+            </tr>
+        }
+    </tbody>
+</table>

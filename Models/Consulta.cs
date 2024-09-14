@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SpaWebApp.Models
 {
@@ -8,16 +7,16 @@ namespace SpaWebApp.Models
     {
         public int ConsultaID { get; set; }
 
-        [ForeignKey("Usuario")]
-        public int UsuarioID { get; set; }
-        public Usuario Usuario { get; set; }
+        [Required]
+        public int UsuarioID { get; set; } // Asegúrate de que coincida con la base de datos
+        public Usuario? Usuario { get; set; } // Permitir que Usuario sea nullable
 
         [Required]
-        public string Mensaje { get; set; }
+        public string Mensaje { get; set; } = string.Empty;
+
+        public string? Respuesta { get; set; } // Permitir que Respuesta sea nullable
 
         public DateTime FechaConsulta { get; set; } = DateTime.Now;
-
-        public string Respuesta { get; set; }
         public DateTime? FechaRespuesta { get; set; }
     }
 }

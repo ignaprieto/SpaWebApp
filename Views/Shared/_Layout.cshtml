@@ -1,56 +1,183 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SpaWebApp</title>
+    <title>@ViewData["Title"] - Sentirse Bien</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SpaWebApp.styles.css" asp-append-version="true" />
     <style>
+        /* Fondo degradado de colores estilo spa */
+        body {
+            background: linear-gradient(135deg, #f7e9a0 0%, #f4b6c2 50%, #a8d5ba 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
         .navbar-nav {
             margin-left: auto;
         }
 
             .navbar-nav .nav-item {
-                margin-left: 10px; /* Ajusta el espacio entre los botones si es necesario */
+<<<<<<< HEAD
+                margin-left: 10px;
+=======
+                margin-left: 15px;
+>>>>>>> da1a526fbcae6cdb20eaf3efc9c27a16f1a597dc
             }
 
+        /* Fondo verde combinado con degradado para la barra de navegación */
+        .navbar {
+            background: linear-gradient(90deg, #a8d5ba, #6b8f71);
+        }
+
+        /* Fondo verde más oscuro para el nombre SpaWebApp */
+        .navbar-brand-custom {
+            background-color: #6b8f71; /* Verde más oscuro */
+            color: white !important;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Sombra para el texto */
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15); /* Sombra suave */
+        }
+
+            .navbar-brand-custom:hover {
+                background-color: #5a7f62; /* Hover más oscuro */
+            }
+
+        /* Colores relajantes estilo spa para los botones de la barra */
+        .nav-link-custom {
+            background-color: #96c9a7; /* Verde suave */
+            color: white !important;
+            padding: 10px;
+            border-radius: 5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Sombra para el texto */
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15); /* Sombra para los botones */
+        }
+
+            .nav-link-custom:hover {
+                background-color: #82b495; /* Efecto hover verde suave más oscuro */
+            }
+
+        /* Mismo color verde suave para los botones de inicio de sesión y registro */
+        .btn-custom-green {
+            background-color: #96c9a7; /* Verde suave */
+            color: white !important;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15); /* Sombra */
+            margin-left: 15px; /* Espaciado entre botones */
+        }
+
+            .btn-custom-green:hover {
+                background-color: #82b495; /* Efecto hover para los botones verdes */
+            }
+
+        /* Ajuste del espaciado entre los botones */
         .btn-custom {
-            margin-left: 10px; /* Ajusta el espacio entre los botones si es necesario */
+<<<<<<< HEAD
+            margin-left: 10px;
+=======
+            margin-left: 15px;
+        }
+
+        /* Estilos para el pie de página */
+        footer {
+            background-color: transparent; /* Fondo transparente */
+            color: #6c757d; /* Color de texto más tenue */
+            padding: -100px 0; /* Padding reducido para menos altura */
+            font-size: 14px; /* Tamaño de fuente más pequeño */
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .footer-links {
+            text-align: center;
+            margin-top: -10px; /* Espaciado entre el contenido del footer y el borde superior del footer */
+        }
+
+            .footer-links a {
+                color: #6c757d; /* Color de enlace */
+                text-decoration: none;
+                margin: 15px; /* Espaciado entre enlaces */
+            }
+
+                .footer-links a:hover {
+                    text-decoration: underline;
+                }
+
+        /* Añadir padding inferior al contenedor principal */
+        .container {
+            padding-bottom: 37px; /* Ajusta el valor según el espacio necesario para no superponerse al footer */
+>>>>>>> da1a526fbcae6cdb20eaf3efc9c27a16f1a597dc
         }
     </style>
 </head>
+
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SpaWebApp</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand navbar-brand-custom" asp-area="" asp-controller="Home" asp-action="Index">Sentirse Bien</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link nav-link-custom" asp-area="" asp-controller="Home"
+                               asp-action="Index">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link nav-link-custom" asp-area="" asp-controller="Home"
+                               asp-action="Privacy">Privacidad</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Servicios" asp-action="Index">Servicios</a>
+                            <a class="nav-link nav-link-custom" asp-area="" asp-controller="Servicios"
+                               asp-action="Index">Servicios</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Noticias" asp-action="Index">Noticias</a>
+                            <a class="nav-link nav-link-custom" asp-area="" asp-controller="Noticias"
+                               asp-action="Index">Noticias</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Empleo" asp-action="Index">Empleo</a>
+                            <a class="nav-link nav-link-custom" asp-area="" asp-controller="Empleo"
+                               asp-action="Index">Empleo</a>
                         </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Turnos" asp-action="Index">Turnos</a>
+                            </li>
+                        }
                     </ul>
+
                     <div class="d-flex">
-                        <a href="/Auth/Login" class="btn btn-primary btn-custom">Iniciar sesión</a>
-                        <a href="/Auth/Register" class="btn btn-secondary btn-custom">Registrarse</a>
+<<<<<<< HEAD
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    @User.Identity.Name
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                                    <li><a class="dropdown-item" href="/Auth/Logout">Cerrar sesión</a></li>
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <a href="/Auth/Login" class="btn btn-primary btn-custom">Iniciar sesión</a>
+                            <a href="/Auth/Register" class="btn btn-secondary btn-custom">Registrarse</a>
+                        }
+=======
+                        <a href="/Auth/Login" class="btn btn-custom-green">Iniciar sesión</a>
+                        <a href="/Auth/Register" class="btn btn-custom-green">Registrarse</a>
+>>>>>>> da1a526fbcae6cdb20eaf3efc9c27a16f1a597dc
                     </div>
                 </div>
             </div>
@@ -63,8 +190,10 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - SpaWebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="container text-center footer-links">
+            &copy; 2024 - SpaWeb -
+            <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a> |
+            <a asp-area="" asp-controller="Empleo" asp-action="Index">Empleo</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -72,4 +201,5 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
