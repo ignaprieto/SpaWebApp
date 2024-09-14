@@ -22,11 +22,7 @@
         }
 
             .navbar-nav .nav-item {
-<<<<<<< HEAD
-                margin-left: 10px;
-=======
                 margin-left: 15px;
->>>>>>> da1a526fbcae6cdb20eaf3efc9c27a16f1a597dc
             }
 
         /* Fondo verde combinado con degradado para la barra de navegación */
@@ -77,9 +73,6 @@
 
         /* Ajuste del espaciado entre los botones */
         .btn-custom {
-<<<<<<< HEAD
-            margin-left: 10px;
-=======
             margin-left: 15px;
         }
 
@@ -87,7 +80,7 @@
         footer {
             background-color: transparent; /* Fondo transparente */
             color: #6c757d; /* Color de texto más tenue */
-            padding: -100px 0; /* Padding reducido para menos altura */
+            padding: 20px 0; /* Padding ajustado para más altura */
             font-size: 14px; /* Tamaño de fuente más pequeño */
             position: relative;
             bottom: 0;
@@ -112,20 +105,6 @@
         /* Añadir padding inferior al contenedor principal */
         .container {
             padding-bottom: 37px; /* Ajusta el valor según el espacio necesario para no superponerse al footer */
->>>>>>> da1a526fbcae6cdb20eaf3efc9c27a16f1a597dc
-        }
-    </style>
-    <style>
-        .navbar-nav {
-            margin-left: auto;
-        }
-
-            .navbar-nav .nav-item {
-                margin-left: 10px;
-            }
-
-        .btn-custom {
-            margin-left: 10px;
         }
     </style>
 </head>
@@ -133,7 +112,6 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow mb-3">
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand navbar-brand-custom" asp-area="" asp-controller="Home" asp-action="Index">Sentirse Bien</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
@@ -171,7 +149,6 @@
                     </ul>
 
                     <div class="d-flex">
-<<<<<<< HEAD
                         @if (User.Identity.IsAuthenticated)
                         {
                             <div class="dropdown">
@@ -185,42 +162,8 @@
                         }
                         else
                         {
-                            <a href="/Auth/Login" class="btn btn-primary btn-custom">Iniciar sesión</a>
-                            <a href="/Auth/Register" class="btn btn-secondary btn-custom">Registrarse</a>
-                        }
-=======
-                        <a href="/Auth/Login" class="btn btn-custom-green">Iniciar sesión</a>
-                        <a href="/Auth/Register" class="btn btn-custom-green">Registrarse</a>
->>>>>>> da1a526fbcae6cdb20eaf3efc9c27a16f1a597dc
-                    </div>
-                </div>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Empleo" asp-action="Index">Empleo</a>
-                        </li>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Turnos" asp-action="Index">Turnos</a>
-                            </li>
-                        }
-                    </ul>
-
-                    <div class="d-flex">
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    @User.Identity.Name
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                                    <li><a class="dropdown-item" href="/Auth/Logout">Cerrar sesión</a></li>
-                                </ul>
-                            </div>
-                        }
-                        else
-                        {
-                            <a href="/Auth/Login" class="btn btn-primary btn-custom">Iniciar sesión</a>
-                            <a href="/Auth/Register" class="btn btn-secondary btn-custom">Registrarse</a>
+                            <a href="/Auth/Login" class="btn btn-custom-green">Iniciar sesión</a>
+                            <a href="/Auth/Register" class="btn btn-custom-green">Registrarse</a>
                         }
                     </div>
                 </div>
