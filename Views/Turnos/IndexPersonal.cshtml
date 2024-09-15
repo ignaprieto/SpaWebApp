@@ -4,14 +4,6 @@
     var userRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
 }
 
-<!-- Mostrar mensaje de éxito si existe -->
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success" role="alert">
-        @TempData["SuccessMessage"]
-    </div>
-}
-
 <form id="updateStatusForm" asp-action="ActualizarEstado" method="post">
     <table class="table">
         <thead>
@@ -67,8 +59,51 @@
     }
 </form>
 
+<!-- Alert container -->
+<div id="alertContainer" class="fixed-top mt-5 mx-auto" style="width: 50%; display:none;">
+    <div class="alert alert-success" id="statusAlert" role="alert">
+        ¡Estado actualizado correctamente!
+    </div>
+</div>
+
 @section Scripts {
     <script>
+        $(document).ready(function () {
+            // Captura el evento de envío del formulario
+            $('#updateStatusForm').submit(function (e) {
+                e.preventDefault(); // Prevenir el envío normal del formulario
+
+                // Obtener el token de validación de anti-forgery
+                const token = $('input[name="__RequestVerificationToken"]').val();
+                const data = $(this).serialize(); // Serializar el formulario
+
+                // Hacer la petición AJAX para actualizar el estado
+                $.ajax({
+                    url: '/Turnos/ActualizarEstado',
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': token
+                    },
+                    data: data,
+                    success: function (response) {
+                        if (response.success) {
+                            // Mostrar la alerta de éxito
+                            $('#alertContainer').fadeIn();
+
+                            // Ocultar la alerta después de 3 segundos
+                            setTimeout(function () {
+                                $('#alertContainer').fadeOut();
+                            }, 3000);
+                        }
+                    },
+                    error: function () {
+                        alert('Error al actualizar los estados.');
+                    }
+                });
+            });
+        });
+
+        // Función para eliminar un turno (sin cambios)
         function eliminarTurno(turnoID) {
             if (confirm('¿Estás seguro de que quieres eliminar este turno?')) {
                 fetch(`/Turnos/Eliminar`, {
@@ -82,8 +117,12 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            alert(data.message);
-                            location.reload(); // Recargar la página para actualizar la lista
+                            // Mostrar alerta de eliminación
+                            $('#alertContainer').fadeIn().html('<div class="alert alert-success">Turno eliminado correctamente.</div>');
+                            setTimeout(() => {
+                                $('#alertContainer').fadeOut();
+                                location.reload(); // Recargar la página después de la eliminación
+                            }, 3000);
                         } else {
                             alert(data.message);
                         }

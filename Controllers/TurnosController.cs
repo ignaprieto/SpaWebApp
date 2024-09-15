@@ -132,8 +132,12 @@ namespace SpaWebApp.Controllers
                 }
             }
             _context.SaveChanges();
-            return Json(new { success = true, message = "Estados actualizados correctamente." });
+
+            // Devuelve solo el estado de éxito
+            return Json(new { success = true });
         }
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
