@@ -32,43 +32,43 @@
 
         /* Fondo verde más oscuro para el nombre SpaWebApp */
         .navbar-brand-custom {
-            background-color: #6b8f71; /* Verde más oscuro */
+            background-color: #6b8f71;
             color: white !important;
             padding: 10px 20px;
             border-radius: 5px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Sombra para el texto */
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15); /* Sombra suave */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
         }
 
             .navbar-brand-custom:hover {
-                background-color: #5a7f62; /* Hover más oscuro */
+                background-color: #5a7f62;
             }
 
         /* Colores relajantes estilo spa para los botones de la barra */
         .nav-link-custom {
-            background-color: #96c9a7; /* Verde suave */
+            background-color: #96c9a7;
             color: white !important;
             padding: 10px;
             border-radius: 5px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Sombra para el texto */
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15); /* Sombra para los botones */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
         }
 
             .nav-link-custom:hover {
-                background-color: #82b495; /* Efecto hover verde suave más oscuro */
+                background-color: #82b495;
             }
 
         /* Mismo color verde suave para los botones de inicio de sesión y registro */
         .btn-custom-green {
-            background-color: #96c9a7; /* Verde suave */
+            background-color: #96c9a7;
             color: white !important;
             border-radius: 5px;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15); /* Sombra */
-            margin-left: 15px; /* Espaciado entre botones */
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+            margin-left: 15px;
         }
 
             .btn-custom-green:hover {
-                background-color: #82b495; /* Efecto hover para los botones verdes */
+                background-color: #82b495;
             }
 
         /* Ajuste del espaciado entre los botones */
@@ -78,10 +78,10 @@
 
         /* Estilos para el pie de página */
         footer {
-            background-color: transparent; /* Fondo transparente */
-            color: #6c757d; /* Color de texto más tenue */
-            padding: 20px 0; /* Padding ajustado para más altura */
-            font-size: 14px; /* Tamaño de fuente más pequeño */
+            background-color: transparent;
+            color: #6c757d;
+            padding: 5px 0; /* Más pequeño */
+            font-size: 10px; /* Tamaño de fuente más pequeño */
             position: relative;
             bottom: 0;
             width: 100%;
@@ -89,13 +89,13 @@
 
         .footer-links {
             text-align: center;
-            margin-top: -10px; /* Espaciado entre el contenido del footer y el borde superior del footer */
+            margin-top: 3px; /* Ajustado el margen superior */
         }
 
             .footer-links a {
-                color: #6c757d; /* Color de enlace */
+                color: #6c757d;
                 text-decoration: none;
-                margin: 15px; /* Espaciado entre enlaces */
+                margin: 5px; /* Reducido el espaciado entre enlaces */
             }
 
                 .footer-links a:hover {
@@ -104,7 +104,7 @@
 
         /* Añadir padding inferior al contenedor principal */
         .container {
-            padding-bottom: 37px; /* Ajusta el valor según el espacio necesario para no superponerse al footer */
+            padding-bottom: 60px; /* Aumentado para evitar superposición con el footer */
         }
     </style>
 </head>
@@ -121,24 +121,13 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link nav-link-custom" asp-area="" asp-controller="Home"
-                               asp-action="Index">Inicio</a>
+                            <a class="nav-link nav-link-custom" asp-area="" asp-controller="Servicios" asp-action="Index">Servicios</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nav-link-custom" asp-area="" asp-controller="Home"
-                               asp-action="Privacy">Privacidad</a>
+                            <a class="nav-link nav-link-custom" asp-area="" asp-controller="Noticias" asp-action="Index">Noticias</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nav-link-custom" asp-area="" asp-controller="Servicios"
-                               asp-action="Index">Servicios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-custom" asp-area="" asp-controller="Noticias"
-                               asp-action="Index">Noticias</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-custom" asp-area="" asp-controller="Empleo"
-                               asp-action="Index">Empleo</a>
+                            <a class="nav-link nav-link-custom" asp-area="" asp-controller="Empleo" asp-action="Index">Empleo</a>
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
