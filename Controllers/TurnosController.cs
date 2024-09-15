@@ -39,14 +39,14 @@ namespace SpaWebApp.Controllers
         // GET: Turnos/Reservar
         public IActionResult Reservar()
         {
-            // Eliminar ViewBag.TiposServicio ya que no se usa más
+            // No se necesita cargar tipos de servicio
             return View();
         }
 
         // POST: Turnos/Reservar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Reservar(Turno turno)
+        public IActionResult Reservar(Turno turno, string HorarioTurno) // Captura el horario desde el formulario
         {
             if (ModelState.IsValid)
             {
@@ -61,6 +61,17 @@ namespace SpaWebApp.Controllers
                         if (usuario != null)
                         {
                             turno.UsuarioID = usuario.UsuarioID; // Asignar solo el ID del usuario
+
+                            // Unificar fecha y hora del turno en el campo FechaTurno
+                            if (DateTime.TryParse(turno.FechaTurno.ToString("yyyy-MM-dd") + " " + HorarioTurno, out DateTime fechaCompleta))
+                            {
+                                turno.FechaTurno = fechaCompleta;
+                            }
+                            else
+                            {
+                                ModelState.AddModelError(string.Empty, "Error al procesar la fecha y la hora del turno.");
+                                return View(turno);
+                            }
                         }
                         else
                         {
@@ -76,7 +87,6 @@ namespace SpaWebApp.Controllers
                 }
                 else
                 {
-                    // Manejar el caso en que el rol no es "Cliente"
                     ModelState.AddModelError(string.Empty, "No tienes permiso para reservar turnos.");
                     return View(turno);
                 }
@@ -87,7 +97,6 @@ namespace SpaWebApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            // No hay necesidad de cargar tipos de servicio ya que no se usa más
             return View(turno);
         }
     }
