@@ -1,28 +1,97 @@
 ﻿@model IEnumerable<SpaWebApp.Models.Turno>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>TurnoID</th>
-            <th>Tipo de Servicio</th>
-            <th>Servicio</th>
-            <th>Fecha del Turno</th>
-            <th>Estado</th>
-            <th>Comentarios</th>
-            <th>Cliente</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var turno in Model)
-        {
+@{
+    var userRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+}
+
+<!-- Mostrar mensaje de éxito si existe -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<form id="updateStatusForm" asp-action="ActualizarEstado" method="post">
+    <table class="table">
+        <thead>
             <tr>
-                <td>@turno.TurnoID</td>
-                <td>@turno.Servicio</td>
-                <td>@turno.FechaTurno.ToShortDateString()</td>
-                <td>@turno.Estado</td>
-                <td>@turno.Comentarios</td>
-                <td>@turno.Usuario?.Nombre @turno.Usuario?.Apellido</td> <!-- Usa el operador null-conditional para evitar desreferencias nulas -->
+                <th>TurnoID</th>
+                <th>UsuarioID</th>
+                <th>Servicio</th>
+                <th>Fecha del Turno</th>
+                <th>Estado</th>
+                <th>Comentarios</th>
+                @if (userRole == "Personal")
+                {
+                    <th>Acciones</th>
+                }
             </tr>
+        </thead>
+        <tbody>
+            @foreach (var turno in Model)
+            {
+                <tr>
+                    <td>@turno.TurnoID</td>
+                    <td>@turno.UsuarioID</td>
+                    <td>@turno.Servicio</td>
+                    <td>@turno.FechaTurno.ToShortDateString()</td>
+                    <td>
+                        @if (userRole == "Personal")
+                        {
+                            <select name="Estados[@turno.TurnoID]" class="form-select">
+                                <option value="Pendiente" selected="@(turno.Estado == "Pendiente")">Pendiente</option>
+                                <option value="Confirmado" selected="@(turno.Estado == "Confirmado")">Confirmado</option>
+                                <option value="Cancelado" selected="@(turno.Estado == "Cancelado")">Cancelado</option>
+                            </select>
+                        }
+                        else
+                        {
+                            @turno.Estado
+                        }
+                    </td>
+                    <td>@turno.Comentarios</td>
+                    @if (userRole == "Personal")
+                    {
+                        <td>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminarTurno(@turno.TurnoID)">Eliminar</button>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if (userRole == "Personal")
+    {
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    }
+</form>
+
+@section Scripts {
+    <script>
+        function eliminarTurno(turnoID) {
+            if (confirm('¿Estás seguro de que quieres eliminar este turno?')) {
+                fetch(`/Turnos/Eliminar`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    body: JSON.stringify({ id: turnoID })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert(data.message);
+                            location.reload(); // Recargar la página para actualizar la lista
+                        } else {
+                            alert(data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
         }
-    </tbody>
-</table>
+    </script>
+}

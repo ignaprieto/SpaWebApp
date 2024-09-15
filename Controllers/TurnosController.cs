@@ -118,5 +118,51 @@ namespace SpaWebApp.Controllers
 
             return View(turno);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult ActualizarEstado(Dictionary<int, string> estados)
+        {
+            foreach (var estado in estados)
+            {
+                var turno = _context.Turnos.SingleOrDefault(t => t.TurnoID == estado.Key);
+                if (turno != null)
+                {
+                    turno.Estado = estado.Value;
+                }
+            }
+            _context.SaveChanges();
+            return Json(new { success = true, message = "Estados actualizados correctamente." });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Eliminar([FromBody] EliminarTurnoRequest request)
+        {
+            var turno = _context.Turnos.Find(request.Id);
+            if (turno == null)
+            {
+                return Json(new { success = false, message = "No se encontró el turno." });
+            }
+
+            _context.Turnos.Remove(turno);
+            _context.SaveChanges();
+
+            return Json(new { success = true, message = "Turno eliminado exitosamente." });
+        }
+
+        public class EliminarTurnoRequest
+        {
+            public int Id { get; set; }
+        }
+
+
+
+
+
+
+
+
+
     }
 }
