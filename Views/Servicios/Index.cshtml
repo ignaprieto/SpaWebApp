@@ -110,6 +110,14 @@
                     <li class="list-group-item">
                         <strong>@comentario.Nombre</strong> (@comentario.FechaComentario.ToString("dd/MM/yyyy")):
                         <p>@comentario.Comentario</p>
+
+                        @if (User.IsInRole("Personal"))
+                        {
+                            <form asp-controller="Comentarios" asp-action="Delete" method="post" style="display:inline;">
+                                <input type="hidden" name="comentarioId" value="@comentario.ComentarioID" />
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                            </form>
+                        }
                     </li>
                 }
             </ul>

@@ -49,5 +49,19 @@ namespace SpaWebApp.Controllers
 
             return RedirectToAction("Index", "Servicios");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int comentarioId)
+        {
+            var comentario = _context.Comentarios.Find(comentarioId);
+            if (comentario != null)
+            {
+                _context.Comentarios.Remove(comentario);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Index", "Servicios");
+        }
     }
 }
