@@ -3,28 +3,28 @@
 <form asp-action="Reservar" method="post">
     <div class="form-group">
         <label for="Servicio">Servicio</label>
-        <select id="servicio" name="Servicio" class="form-control">
+        <select id="servicio" name="Servicio" class="form-control" required>
             <option value="">Seleccione un servicio</option>
-            @foreach (var servicio in Enum.GetValues(typeof(SpaWebApp.Models.ServicioEnum)).Cast<SpaWebApp.Models.ServicioEnum>())
+            @foreach (var servicio in (IEnumerable<SelectListItem>)ViewBag.Servicios)
             {
-                <option value="@servicio">@servicio</option>
+                <option value="@servicio.Value">@servicio.Text</option>
             }
         </select>
     </div>
 
     <div class="form-group">
         <label for="FechaTurno">Fecha del Turno</label>
-        <input type="date" id="fechaTurno" name="FechaTurno" class="form-control" />
+        <input type="date" id="fechaTurno" name="FechaTurno" class="form-control" required/>
     </div>
 
     <div class="form-group">
         <label for="HorarioTurno">Horario del Turno</label>
-        <input type="time" id="horarioTurno" name="HorarioTurno" class="form-control" />
+        <input type="time" id="horarioTurno" name="HorarioTurno" class="form-control" required/>
     </div>
 
     <div class="form-group">
         <label for="Comentarios">Comentarios</label>
-        <textarea id="comentarios" name="Comentarios" class="form-control"></textarea>
+        <textarea id="comentarios" name="Comentarios" class="form-control" required></textarea>
     </div>
 
     <button type="submit" class="btn btn-primary">Reservar Turno</button>

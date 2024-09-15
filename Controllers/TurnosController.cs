@@ -39,7 +39,26 @@ namespace SpaWebApp.Controllers
         // GET: Turnos/Reservar
         public IActionResult Reservar()
         {
-            // No se necesita cargar tipos de servicio
+            var servicios = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "Masajes_AntiStress", Text = "Masajes AntiStress" },
+                new SelectListItem { Value = "Masajes_Descontracturantes", Text = "Masajes Descontracturantes" },
+                new SelectListItem { Value = "Masajes_PiedrasCalientes", Text = "Masajes con Piedras Calientes" },
+                new SelectListItem { Value = "Masajes_Circulatorios", Text = "Masajes Circulatorios" },
+                new SelectListItem { Value = "Belleza_LiftingPestañas", Text = "Belleza: Lifting de Pestañas" },
+                new SelectListItem { Value = "Belleza_DepilacionFacial", Text = "Belleza: Depilación Facial" },
+                new SelectListItem { Value = "BellezaManosPies", Text = "Belleza de Manos y Pies" },
+                new SelectListItem { Value = "Tratamientos_Faciales_PuntaDiamante", Text = "Tratamientos Faciales: Punta de Diamante" },
+                new SelectListItem { Value = "Tratamientos_Faciales_LimpiezaProfunda", Text = "Tratamientos Faciales: Limpieza Profunda" },
+                new SelectListItem { Value = "Tratamientos_Faciales_CrioFrecuenciaFacial", Text = "Tratamientos Faciales: Crio Frecuencia Facial" },
+                new SelectListItem { Value = "Tratamientos_Corporales_VelaSlim", Text = "Tratamientos Corporales: VelaSlim" },
+                new SelectListItem { Value = "Tratamientos_Corporales_DermoHealth", Text = "Tratamientos Corporales: DermoHealth" },
+                new SelectListItem { Value = "Tratamientos_Corporales_CrioFrecuenciaCorporal", Text = "Tratamientos Corporales: Crio Frecuencia Corporal" },
+                new SelectListItem { Value = "Tratamientos_Corporales_Ultracavitacion", Text = "Tratamientos Corporales: Ultracavitación" }
+            };
+
+            ViewBag.Servicios = servicios;
+
             return View();
         }
 

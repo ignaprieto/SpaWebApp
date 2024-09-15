@@ -3,30 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SpaWebApp.Models
 {
-    public enum ServicioEnum
-    {
-        AntiStress,
-        Descontracturantes,
-        PiedrasCalientes,
-        Circulatorios,
-        LiftingPestañas,
-        DepilacionFacial,
-        BellezaManosPies,
-        PuntaDiamante,
-        LimpiezaProfunda,
-        CrioFrecuenciaFacial,
-        VelaSlim,
-        DermoHealth,
-        CrioFrecuenciaCorporal,
-        Ultracavitacion
-    }
-
     public class Turno
     {
         public int TurnoID { get; set; }
 
         [Required]
-        public ServicioEnum Servicio { get; set; } // Servicio específico
+        public string Servicio { get; set; } // Guardar el nombre del servicio
 
         [Required]
         public DateTime FechaTurno { get; set; }
