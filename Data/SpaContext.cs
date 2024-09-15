@@ -13,7 +13,7 @@ namespace SpaWebApp.Data
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Turno> Turnos { get; set; }
         public DbSet<Consulta> Consultas { get; set; }
-        public DbSet<Comentario> Comentarios { get; set; }
+        public DbSet<Comentarios> Comentarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,6 +22,9 @@ namespace SpaWebApp.Data
                 .WithMany()
                 .HasForeignKey(t => t.UsuarioID)
                 .OnDelete(DeleteBehavior.Restrict); // Configura la relación para evitar eliminación en cascada
+
+            modelBuilder.Entity<Comentarios>()
+                .HasKey(c => c.ComentarioID); // Define la clave primaria
         }
     }
 }

@@ -1,3 +1,5 @@
+@model List<SpaWebApp.Models.Comentarios>
+
 @{
     ViewData["Title"] = "Servicios";
 }
@@ -96,4 +98,41 @@
             </div>
         </div>
     </div>
+
+    <hr />
+    <h2>Comentarios de Clientes</h2>
+    <div>
+        @if (Model != null && Model.Any())
+        {
+            <ul class="list-group">
+                @foreach (var comentario in Model)
+                {
+                    <li class="list-group-item">
+                        <strong>@comentario.Nombre</strong> (@comentario.FechaComentario.ToString("dd/MM/yyyy")):
+                        <p>@comentario.Comentario</p>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No hay comentarios aún. Sé el primero en dejar uno.</p>
+        }
+    </div>
+
+    <hr />
+    <h3>Deja tu comentario</h3>
+    <form asp-controller="Comentarios" asp-action="Create" method="post">
+        <div class="form-group">
+            <label for="Nombre">Nombre</label>
+            <input type="text" id="Nombre" name="Nombre" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label for="Comentario">Comentario</label>
+            <textarea id="Comentario" name="Comentario" class="form-control" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Enviar comentario</button>
+    </form>
 </div>
