@@ -23,6 +23,7 @@ namespace SpaWebApp.Controllers
         // GET: Login
         public IActionResult Login()
         {
+            ViewData["ShowRegisterLink"] = true; // Mostrar enlace de registro en la vista de inicio de sesión
             return View();
         }
 
@@ -70,6 +71,7 @@ namespace SpaWebApp.Controllers
         // GET: Register
         public IActionResult Register()
         {
+            ViewData["ShowRegisterLink"] = false; // No mostrar enlace de registro en la vista de registro
             return View();
         }
 

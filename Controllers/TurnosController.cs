@@ -65,7 +65,7 @@ namespace SpaWebApp.Controllers
         // POST: Turnos/Reservar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Reservar(Turno turno, string HorarioTurno) // Captura el horario desde el formulario
+        public IActionResult Reservar(Turno turno, string HorarioTurno)
         {
             if (ModelState.IsValid)
             {
@@ -79,9 +79,8 @@ namespace SpaWebApp.Controllers
                         var usuario = _context.Usuarios.SingleOrDefault(u => u.Email == userEmail);
                         if (usuario != null)
                         {
-                            turno.UsuarioID = usuario.UsuarioID; // Asignar solo el ID del usuario
+                            turno.UsuarioID = usuario.UsuarioID;
 
-                            // Unificar fecha y hora del turno en el campo FechaTurno
                             if (DateTime.TryParse(turno.FechaTurno.ToString("yyyy-MM-dd") + " " + HorarioTurno, out DateTime fechaCompleta))
                             {
                                 turno.FechaTurno = fechaCompleta;
@@ -110,7 +109,6 @@ namespace SpaWebApp.Controllers
                     return View(turno);
                 }
 
-                // Guardar el turno en la base de datos
                 _context.Turnos.Add(turno);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
@@ -119,6 +117,7 @@ namespace SpaWebApp.Controllers
             return View(turno);
         }
 
+        // POST: ActualizarEstado
         [HttpPost]
         [ValidateAntiForgeryToken]
         public JsonResult ActualizarEstado(Dictionary<int, string> estados)
@@ -133,12 +132,10 @@ namespace SpaWebApp.Controllers
             }
             _context.SaveChanges();
 
-            // Devuelve solo el estado de éxito
             return Json(new { success = true });
         }
 
-
-
+        // POST: Eliminar Turno
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Eliminar([FromBody] EliminarTurnoRequest request)
@@ -159,14 +156,5 @@ namespace SpaWebApp.Controllers
         {
             public int Id { get; set; }
         }
-
-
-
-
-
-
-
-
-
     }
 }

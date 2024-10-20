@@ -1,37 +1,37 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using SpaWebApp.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Agregar servicios al contenedor.
 builder.Services.AddControllersWithViews();
 
-// Add DbContext with SQL Server configuration
+// Configurar Entity Framework
 builder.Services.AddDbContext<SpaContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Add authentication service with cookie authentication
+// Configurar la autenticación de cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Auth/Login"; // Ajusta la ruta de login
+        options.LoginPath = "/Auth/Login";
         options.LogoutPath = "/Auth/Logout";
-        options.AccessDeniedPath = "/Auth/AccessDenied";
+        options.AccessDeniedPath = "/Auth/Login"; // Redirigir a Login si el acceso es denegado
     });
-
-// Add session services
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Tiempo de expiración de la sesión
-    options.Cookie.HttpOnly = true; // Solo accesible por HTTP
-    options.Cookie.IsEssential = true; // Necesario para el funcionamiento del sitio
-});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+// Configurar el middleware
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
@@ -42,12 +42,19 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// Enable authentication and authorization middleware
-app.UseAuthentication();
+app.UseAuthentication(); // Usar autenticación
 app.UseAuthorization();
 
-// Enable session middleware
-app.UseSession();
+// Redirigir a la vista de Login si no hay sesión iniciada
+app.Use(async (context, next) =>
+{
+    if (!context.User.Identity.IsAuthenticated && !context.Request.Path.StartsWithSegments("/Auth"))
+    {
+        context.Response.Redirect("/Auth/Login");
+        return;
+    }
+    await next();
+});
 
 app.MapControllerRoute(
     name: "default",

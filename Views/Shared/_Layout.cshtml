@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,7 +8,6 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SpaWebApp.styles.css" asp-append-version="true" />
     <style>
-        /* Fondo degradado de colores estilo spa */
         body {
             background: linear-gradient(135deg, #f7e9a0 0%, #f4b6c2 50%, #a8d5ba 100%);
             min-height: 100vh;
@@ -17,71 +15,30 @@
             padding: 0;
         }
 
-        .navbar-nav {
-            margin-left: auto;
-        }
-
-            .navbar-nav .nav-item {
-                margin-left: 15px;
-            }
-
-        /* Fondo verde combinado con degradado para la barra de navegación */
         .navbar {
             background: linear-gradient(90deg, #a8d5ba, #6b8f71);
         }
 
-        /* Fondo verde más oscuro para el nombre SpaWebApp */
-        .navbar-brand-custom {
-            background-color: #6b8f71;
-            color: white !important;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+        #sidebar-wrapper {
+            min-width: 250px;
+            background-color: #fe9a0; /* Color amarillo */
+            transition: all 0.5s;
         }
 
-            .navbar-brand-custom:hover {
-                background-color: #5a7f62;
+            #sidebar-wrapper.hidden {
+                margin-left: -250px;
             }
 
-        /* Colores relajantes estilo spa para los botones de la barra */
-        .nav-link-custom {
-            background-color: #96c9a7;
-            color: white !important;
-            padding: 10px;
-            border-radius: 5px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+        #page-content-wrapper {
+            width: 100%;
+            transition: all 0.5s;
         }
 
-            .nav-link-custom:hover {
-                background-color: #82b495;
-            }
-
-        /* Mismo color verde suave para los botones de inicio de sesión y registro */
-        .btn-custom-green {
-            background-color: #96c9a7;
-            color: white !important;
-            border-radius: 5px;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
-            margin-left: 15px;
-        }
-
-            .btn-custom-green:hover {
-                background-color: #82b495;
-            }
-
-        /* Ajuste del espaciado entre los botones */
-        .btn-custom {
-            margin-left: 15px;
-        }
-
-        /* Estilos para el pie de página */
         footer {
             background-color: transparent;
             color: #6c757d;
-            padding: 5px 0; /* Más pequeño */
-            font-size: 10px; /* Tamaño de fuente más pequeño */
+            padding: 5px 0;
+            font-size: 10px;
             position: relative;
             bottom: 0;
             width: 100%;
@@ -89,100 +46,76 @@
 
         .footer-links {
             text-align: center;
-            margin-top: 3px; /* Ajustado el margen superior */
+            margin-top: 3px;
         }
 
-            .footer-links a {
-                color: #6c757d;
-                text-decoration: none;
-                margin: 5px; /* Reducido el espaciado entre enlaces */
-            }
-
-                .footer-links a:hover {
-                    text-decoration: underline;
-                }
-
-        /* Añadir padding inferior al contenedor principal */
-        .container {
-            padding-bottom: 60px; /* Aumentado para evitar superposición con el footer */
+        .register-message {
+            display: @(User.Identity.IsAuthenticated ? "none" : "block");
+            text-align: center;
+            margin: 20px;
         }
     </style>
 </head>
-
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand navbar-brand-custom d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+            <div class="container-fluid justify-content-between">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <button class="btn btn-outline-secondary" id="toggle-sidebar">Menu</button>
+                }
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="@(User.Identity.IsAuthenticated ? "Index" : "")">
                     <img src="~/images/logo.jpg" alt="Logo" style="height: 60px; width: auto; margin-right: 15px;" />
                     Sentirse Bien
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-custom" asp-area="" asp-controller="Servicios" asp-action="Index">Servicios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-custom" asp-area="" asp-controller="Noticias" asp-action="Index">Noticias</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-custom" asp-area="" asp-controller="Empleo" asp-action="Index">Empleo</a>
-                        </li>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Turnos" asp-action="Index">Turnos</a>
-                            </li>
-                        }
-                    </ul>
-
-                    <div class="d-flex">
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    @User.Identity.Name
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                                    <li><a class="dropdown-item" href="/Auth/Logout">Cerrar sesión</a></li>
-                                </ul>
-                            </div>
-                        }
-                        else
-                        {
-                            <a href="/Auth/Login" class="btn btn-custom-green">Iniciar sesión</a>
-                            <a href="/Auth/Register" class="btn btn-custom-green">Registrarse</a>
-                        }
-                    </div>
-                </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+
+    <div id="wrapper" class="d-flex @(User.Identity.IsAuthenticated ? "" : "hidden")">
+        <div id="sidebar-wrapper" class="bg-light border-right @(User.Identity.IsAuthenticated ? "" : "hidden")">
+            <div class="list-group list-group-flush">
+                <div class="list-group-item bg-light text-center">
+                    <strong>@User.Identity.Name</strong> <!-- Mostrar usuario logueado -->
+                </div>
+                <a href="@Url.Action("Index", "Home")" class="list-group-item list-group-item-action bg-light">Inicio</a>
+                <a href="@Url.Action("Index", "Servicios")" class="list-group-item list-group-item-action bg-light">Servicios</a>
+                <a href="@Url.Action("Index", "Turnos")" class="list-group-item list-group-item-action bg-light">Turnos</a>
+                <a href="@Url.Action("Index", "Noticias")" class="list-group-item list-group-item-action bg-light">Noticias</a>
+                <a href="~/Auth/Logout" class="list-group-item list-group-item-action bg-light">Cerrar sesión</a> <!-- Opción de cerrar sesión -->
+            </div>
+        </div>
+        <div id="page-content-wrapper">
+            <main role="main" class="container-fluid">
+                @RenderBody()
+                @if (!User.Identity.IsAuthenticated && ViewData["Title"].ToString() == "Login")
+                {
+                    <div class="register-message">
+                        <p>No tienes cuenta? <a href="@Url.Action("Register", "Auth")">Regístrate aquí</a>.</p>
+                    </div>
+                }
+            </main>
+        </div>
     </div>
 
     <footer class="border-top footer text-muted">
         <div class="container text-center footer-links">
-            &copy; 2024 - SpaWeb -
-            <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a> |
+            &copy; 2024 - SpaWeb - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a> |
             <a asp-area="" asp-controller="Empleo" asp-action="Index">Empleo</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            $('#toggle-sidebar').click(function () {
+                $('#sidebar-wrapper').toggleClass('hidden');
+                $('#page-content-wrapper').toggleClass('full-width');
+            });
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
-
 </html>
-@section Scripts {
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-}
