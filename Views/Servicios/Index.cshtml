@@ -111,7 +111,7 @@
                         <strong>@comentario.Nombre</strong> (@comentario.FechaComentario.ToString("dd/MM/yyyy")):
                         <p>@comentario.Comentario</p>
 
-                        @if (User.IsInRole("Personal"))
+                        @if (User.IsInRole("Administrador"))
                         {
                             <form asp-controller="Comentarios" asp-action="Delete" method="post" style="display:inline;">
                                 <input type="hidden" name="comentarioId" value="@comentario.ComentarioID" />

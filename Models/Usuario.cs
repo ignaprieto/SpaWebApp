@@ -36,6 +36,14 @@ namespace SpaWebApp.Models
         [Required]
         [StringLength(50)]
         public string Rol { get; set; } = string.Empty;
+
+    }
+
+    public enum RolEnum
+    {
+        Cliente,
+        Profesional,
+        Administrador
     }
 }
     

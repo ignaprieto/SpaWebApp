@@ -22,17 +22,38 @@ namespace SpaWebApp.Controllers
         // GET: Turnos
         public IActionResult Index()
         {
-            var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
-            if (userRole == "Personal")
+            // Obtener el email del usuario autenticado
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+
+            // Obtener el usuario de la base de datos
+            var usuario = _context.Usuarios.SingleOrDefault(u => u.Email == userEmail);
+
+            if (usuario == null)
             {
-                var turnos = _context.Turnos
-                    .Include(t => t.Usuario)
-                    .ToList();
-                return View("IndexPersonal", turnos); // Vista para el personal
+                return RedirectToAction("Login", "Auth"); // Redirigir si el usuario no existe
             }
-            else
+
+            // Verificar el rol del usuario
+            switch (usuario.Rol)
             {
-                return RedirectToAction("Reservar");
+                case "Cliente":
+                    return RedirectToAction("Reservar"); // Redirigir a la vista de reservas para clientes
+
+                case "Profesional":
+                    var turnosProfesional = _context.Turnos
+                        .Include(t => t.Usuario)
+                        .Where(t => t.ProfesionalID == usuario.UsuarioID) // Filtra turnos por el profesional logueado
+                        .ToList();
+                    return View("Index", turnosProfesional); // Vista de turnos para el profesional
+
+                case "Administrador":
+                    var turnosAdmin = _context.Turnos
+                        .Include(t => t.Usuario)
+                        .ToList();
+                    return View("IndexPersonal", turnosAdmin); // Vista de turnos para el administrador
+
+                default:
+                    return RedirectToAction("Login", "Auth"); // Redirigir al login si no tiene un rol válido
             }
         }
 
@@ -79,8 +100,9 @@ namespace SpaWebApp.Controllers
                         var usuario = _context.Usuarios.SingleOrDefault(u => u.Email == userEmail);
                         if (usuario != null)
                         {
-                            turno.UsuarioID = usuario.UsuarioID;
+                            turno.UsuarioID = usuario.UsuarioID; // Asignar ID del cliente
 
+                            // Unificar fecha y hora del turno en el campo FechaTurno
                             if (DateTime.TryParse(turno.FechaTurno.ToString("yyyy-MM-dd") + " " + HorarioTurno, out DateTime fechaCompleta))
                             {
                                 turno.FechaTurno = fechaCompleta;
@@ -88,6 +110,20 @@ namespace SpaWebApp.Controllers
                             else
                             {
                                 ModelState.AddModelError(string.Empty, "Error al procesar la fecha y la hora del turno.");
+                                return View(turno);
+                            }
+
+                            // Asignar un profesional disponible
+                            var profesional = _context.Usuarios
+                                .FirstOrDefault(u => u.Rol == "Profesional"); // Lógica para seleccionar un profesional
+
+                            if (profesional != null)
+                            {
+                                turno.ProfesionalID = profesional.UsuarioID; // Asignar ID del profesional
+                            }
+                            else
+                            {
+                                ModelState.AddModelError(string.Empty, "No hay profesionales disponibles.");
                                 return View(turno);
                             }
                         }
@@ -109,11 +145,13 @@ namespace SpaWebApp.Controllers
                     return View(turno);
                 }
 
+                // Guardar el turno en la base de datos
                 _context.Turnos.Add(turno);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
 
+            // Si el modelo no es válido, vuelve a la vista con el modelo actual
             return View(turno);
         }
 
@@ -138,23 +176,15 @@ namespace SpaWebApp.Controllers
         // POST: Eliminar Turno
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Eliminar([FromBody] EliminarTurnoRequest request)
+        public IActionResult EliminarTurno(int turnoID)
         {
-            var turno = _context.Turnos.Find(request.Id);
-            if (turno == null)
+            var turno = _context.Turnos.SingleOrDefault(t => t.TurnoID == turnoID);
+            if (turno != null)
             {
-                return Json(new { success = false, message = "No se encontró el turno." });
+                _context.Turnos.Remove(turno);
+                _context.SaveChanges();
             }
-
-            _context.Turnos.Remove(turno);
-            _context.SaveChanges();
-
-            return Json(new { success = true, message = "Turno eliminado exitosamente." });
-        }
-
-        public class EliminarTurnoRequest
-        {
-            public int Id { get; set; }
+            return RedirectToAction("Index");
         }
     }
 }

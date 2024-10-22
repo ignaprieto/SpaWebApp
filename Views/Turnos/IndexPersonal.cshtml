@@ -14,7 +14,7 @@
                 <th>Fecha del Turno</th>
                 <th>Estado</th>
                 <th>Comentarios</th>
-                @if (userRole == "Personal")
+                @if (userRole == "Administrador")
                 {
                     <th>Acciones</th>
                 }
@@ -29,7 +29,7 @@
                     <td>@turno.Servicio</td>
                     <td>@turno.FechaTurno.ToShortDateString()</td>
                     <td>
-                        @if (userRole == "Personal")
+                        @if (userRole == "Administrador")
                         {
                             <select name="Estados[@turno.TurnoID]" class="form-select">
                                 <option value="Pendiente" selected="@(turno.Estado == "Pendiente")">Pendiente</option>
@@ -43,7 +43,7 @@
                         }
                     </td>
                     <td>@turno.Comentarios</td>
-                    @if (userRole == "Personal")
+                    @if (userRole == "Administrador")
                     {
                         <td>
                             <button type="button" class="btn btn-danger btn-sm" onclick="eliminarTurno(@turno.TurnoID)">Eliminar</button>
@@ -53,7 +53,7 @@
             }
         </tbody>
     </table>
-    @if (userRole == "Personal")
+    @if (userRole == "Administrador")
     {
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
     }

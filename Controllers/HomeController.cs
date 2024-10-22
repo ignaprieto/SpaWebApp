@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SpaWebApp.Data;
 using SpaWebApp.Models;
+using System.Linq;
 
 namespace SpaWebApp.Controllers
 {
@@ -29,6 +30,17 @@ namespace SpaWebApp.Controllers
             }
 
             return View("Index");
+        }
+
+        // GET: Usuarios/Clientes
+        public IActionResult Clientes()
+        {
+            // Obtenemos la lista de usuarios que tienen el rol "Cliente"
+            var clientes = _context.Usuarios
+                .Where(u => u.Rol == "Cliente")
+                .ToList();
+
+            return View(clientes);
         }
     }
 }

@@ -25,9 +25,9 @@
             transition: all 0.5s;
         }
 
-            #sidebar-wrapper.hidden {
-                margin-left: -250px;
-            }
+        #sidebar-wrapper.hidden {
+            margin-left: -250px;
+        }
 
         #page-content-wrapper {
             width: 100%;
@@ -62,7 +62,7 @@
             <div class="container-fluid justify-content-between">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <button class="btn btn-outline-secondary" id="toggle-sidebar">Menu</button>
+                <button class="btn btn-outline-secondary" id="toggle-sidebar">Menu</button>
                 }
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="@(User.Identity.IsAuthenticated ? "Index" : "")">
                     <img src="~/images/logo.jpg" alt="Logo" style="height: 60px; width: auto; margin-right: 15px;" />
@@ -82,17 +82,27 @@
                 <a href="@Url.Action("Index", "Servicios")" class="list-group-item list-group-item-action bg-light">Servicios</a>
                 <a href="@Url.Action("Index", "Turnos")" class="list-group-item list-group-item-action bg-light">Turnos</a>
                 <a href="@Url.Action("Index", "Noticias")" class="list-group-item list-group-item-action bg-light">Noticias</a>
+
+                @if (User.IsInRole("Profesional") || User.IsInRole("Administrador"))
+                {
+                    if (User.IsInRole("Profesional") || User.IsInRole("Administrador")) // Solo los profesionales ven la opción "Ver Clientes"
+                    {
+                <a href="@Url.Action("Clientes", "Home")" class="list-group-item list-group-item-action bg-light">Ver Clientes</a>
+                    }
+                }
+
                 <a href="~/Auth/Logout" class="list-group-item list-group-item-action bg-light">Cerrar sesión</a> <!-- Opción de cerrar sesión -->
             </div>
         </div>
+
         <div id="page-content-wrapper">
             <main role="main" class="container-fluid">
                 @RenderBody()
                 @if (!User.Identity.IsAuthenticated && ViewData["Title"].ToString() == "Login")
                 {
-                    <div class="register-message">
-                        <p>No tienes cuenta? <a href="@Url.Action("Register", "Auth")">Regístrate aquí</a>.</p>
-                    </div>
+                <div class="register-message">
+                    <p>No tienes cuenta? <a href="@Url.Action("Register", "Auth")">Regístrate aquí</a>.</p>
+                </div>
                 }
             </main>
         </div>
