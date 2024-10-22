@@ -42,7 +42,6 @@ namespace SpaWebApp.Controllers
                 case "Profesional":
                     var turnosProfesional = _context.Turnos
                         .Include(t => t.Usuario)
-                        .Where(t => t.ProfesionalID == usuario.UsuarioID) // Filtra turnos por el profesional logueado
                         .ToList();
                     return View("Index", turnosProfesional); // Vista de turnos para el profesional
 
