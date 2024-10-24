@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace SpaWebApp.Controllers
 {
@@ -89,58 +90,27 @@ namespace SpaWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+                var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+                var usuario = _context.Usuarios.SingleOrDefault(u => u.Email == userEmail);
 
-                if (userRole == "Cliente")
+                if (usuario != null)
                 {
-                    var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
-                    if (userEmail != null)
+                    turno.UsuarioID = usuario.UsuarioID; // Asignar ID del cliente
+
+                    // Unificar fecha y hora del turno en el campo FechaTurno
+                    if (DateTime.TryParse(turno.FechaTurno.ToString("yyyy-MM-dd") + " " + HorarioTurno, out DateTime fechaCompleta))
                     {
-                        var usuario = _context.Usuarios.SingleOrDefault(u => u.Email == userEmail);
-                        if (usuario != null)
-                        {
-                            turno.UsuarioID = usuario.UsuarioID; // Asignar ID del cliente
-
-                            // Unificar fecha y hora del turno en el campo FechaTurno
-                            if (DateTime.TryParse(turno.FechaTurno.ToString("yyyy-MM-dd") + " " + HorarioTurno, out DateTime fechaCompleta))
-                            {
-                                turno.FechaTurno = fechaCompleta;
-                            }
-                            else
-                            {
-                                ModelState.AddModelError(string.Empty, "Error al procesar la fecha y la hora del turno.");
-                                return View(turno);
-                            }
-
-                            // Asignar un profesional disponible
-                            var profesional = _context.Usuarios
-                                .FirstOrDefault(u => u.Rol == "Profesional"); // Lógica para seleccionar un profesional
-
-                            if (profesional != null)
-                            {
-                                turno.ProfesionalID = profesional.UsuarioID; // Asignar ID del profesional
-                            }
-                            else
-                            {
-                                ModelState.AddModelError(string.Empty, "No hay profesionales disponibles.");
-                                return View(turno);
-                            }
-                        }
-                        else
-                        {
-                            ModelState.AddModelError(string.Empty, "No se encontró el usuario.");
-                            return View(turno);
-                        }
+                        turno.FechaTurno = fechaCompleta;
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "No se encontró el email del usuario.");
+                        ModelState.AddModelError(string.Empty, "Error al procesar la fecha y la hora del turno.");
                         return View(turno);
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "No tienes permiso para reservar turnos.");
+                    ModelState.AddModelError(string.Empty, "No se encontró el usuario.");
                     return View(turno);
                 }
 

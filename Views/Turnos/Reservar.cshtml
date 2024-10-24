@@ -1,31 +1,56 @@
 ﻿@model SpaWebApp.Models.Turno
 
-<form asp-action="Reservar" method="post">
-    <div class="form-group">
-        <label for="Servicio">Servicio</label>
-        <select id="servicio" name="Servicio" class="form-control" required>
-            <option value="">Seleccione un servicio</option>
-            @foreach (var servicio in (IEnumerable<SelectListItem>)ViewBag.Servicios)
+@{
+    ViewData["Title"] = "Reservar Turno";
+}
+
+<h2>Reservar Turno</h2>
+
+@if (ViewBag.Servicios == null)
+{
+    <p>No se encontraron servicios disponibles.</p>
+}
+else
+{
+    <form asp-action="Reservar" method="post">
+        <div class="form-group">
+            <label for="Servicio">Servicio</label>
+            <select id="servicio" name="Servicio" class="form-control" required>
+                <option value="">Seleccione un servicio</option>
+                @foreach (var servicio in (IEnumerable<SelectListItem>)ViewBag.Servicios)
+                {
+                    <option value="@servicio.Value">@servicio.Text</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="FechaTurno">Fecha del Turno</label>
+            <input type="date" id="fechaTurno" name="FechaTurno" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label for="HorarioTurno">Horario del Turno</label>
+            <input type="time" id="horarioTurno" name="HorarioTurno" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label for="Comentarios">Comentarios</label>
+            <textarea id="comentarios" name="Comentarios" class="form-control"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Reservar Turno</button>
+    </form>
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
             {
-                <option value="@servicio.Value">@servicio.Text</option>
+                <li>@error.ErrorMessage</li>
             }
-        </select>
+        </ul>
     </div>
-
-    <div class="form-group">
-        <label for="FechaTurno">Fecha del Turno</label>
-        <input type="date" id="fechaTurno" name="FechaTurno" class="form-control" required/>
-    </div>
-
-    <div class="form-group">
-        <label for="HorarioTurno">Horario del Turno</label>
-        <input type="time" id="horarioTurno" name="HorarioTurno" class="form-control" required/>
-    </div>
-
-    <div class="form-group">
-        <label for="Comentarios">Comentarios</label>
-        <textarea id="comentarios" name="Comentarios" class="form-control" required></textarea>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Reservar Turno</button>
-</form>
+}

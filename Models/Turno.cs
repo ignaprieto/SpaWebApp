@@ -10,15 +10,11 @@ namespace SpaWebApp.Models
         // Cliente que reserva el turno
         [Required]
         public int UsuarioID { get; set; } // ID del cliente
-        public Usuario Usuario { get; set; } // Navegación para el cliente
-
-        // Profesional que atiende el turno
-        public int? ProfesionalID { get; set; }  // ID del profesional (nullable, en caso de que no esté asignado)
-        public Usuario Profesional { get; set; } // Navegación para el profesional
+        public Usuario? Usuario { get; set; } // Navegación para el cliente
 
         // Detalles del servicio
         [Required]
-        public string Servicio { get; set; } // Guardar el nombre del servicio
+        public string? Servicio { get; set; } // Guardar el nombre del servicio
 
         // Fecha y hora del turno
         [Required]

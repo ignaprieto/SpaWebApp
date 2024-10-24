@@ -21,23 +21,24 @@
 
         #sidebar-wrapper {
             min-width: 250px;
-            background-color: #fe9a0; /* Color amarillo */
+            background-color: #f7e9a0; /* Color amarillo */
             transition: all 0.5s;
         }
 
-        #sidebar-wrapper.hidden {
-            margin-left: -250px;
-        }
+            #sidebar-wrapper.hidden {
+                margin-left: -250px;
+            }
 
         #page-content-wrapper {
             width: 100%;
             transition: all 0.5s;
+            margin-bottom: 60px; /* Espacio entre el contenido y el footer */
         }
 
         footer {
             background-color: transparent;
             color: #6c757d;
-            padding: 5px 0;
+            padding: 5px 0; /* Ajuste de padding */
             font-size: 10px;
             position: relative;
             bottom: 0;
@@ -62,7 +63,7 @@
             <div class="container-fluid justify-content-between">
                 @if (User.Identity.IsAuthenticated)
                 {
-                <button class="btn btn-outline-secondary" id="toggle-sidebar">Menu</button>
+                    <button class="btn btn-outline-secondary" id="toggle-sidebar">Menu</button>
                 }
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="@(User.Identity.IsAuthenticated ? "Index" : "")">
                     <img src="~/images/logo.jpg" alt="Logo" style="height: 60px; width: auto; margin-right: 15px;" />
@@ -82,12 +83,13 @@
                 <a href="@Url.Action("Index", "Servicios")" class="list-group-item list-group-item-action bg-light">Servicios</a>
                 <a href="@Url.Action("Index", "Turnos")" class="list-group-item list-group-item-action bg-light">Turnos</a>
                 <a href="@Url.Action("Index", "Noticias")" class="list-group-item list-group-item-action bg-light">Noticias</a>
+                <a href="@Url.Action("Index", "Empleo")" class="list-group-item list-group-item-action bg-light">Empleo</a>
 
                 @if (User.IsInRole("Profesional") || User.IsInRole("Administrador"))
                 {
                     if (User.IsInRole("Profesional") || User.IsInRole("Administrador")) // Solo los profesionales ven la opción "Ver Clientes"
                     {
-                <a href="@Url.Action("Clientes", "Home")" class="list-group-item list-group-item-action bg-light">Ver Clientes</a>
+                        <a href="@Url.Action("Clientes", "Home")" class="list-group-item list-group-item-action bg-light">Ver Clientes</a>
                     }
                 }
 
@@ -100,16 +102,17 @@
                 @RenderBody()
                 @if (!User.Identity.IsAuthenticated && ViewData["Title"].ToString() == "Login")
                 {
-                <div class="register-message">
-                    <p>No tienes cuenta? <a href="@Url.Action("Register", "Auth")">Regístrate aquí</a>.</p>
-                </div>
+                    <div class="register-message">
+                        <p>No tienes cuenta? <a href="@Url.Action("Register", "Auth")">Regístrate aquí</a>.</p>
+                    </div>
                 }
             </main>
         </div>
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container text-center footer-links">
+        <div class="container text-center footer-links" style="padding: 5px 0;">
+            <!-- Ajustar padding del footer -->
             &copy; 2024 - SpaWeb - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a> |
             <a asp-area="" asp-controller="Empleo" asp-action="Index">Empleo</a>
         </div>
